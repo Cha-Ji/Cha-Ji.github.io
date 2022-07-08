@@ -1,11 +1,11 @@
 name: build gatsby with npm
 on:
- push:
-   branches:
-     - gh-pages
+  push:
+    branches:
+      - gh-pages
 jobs:
- build:
-   runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - name: npm install
