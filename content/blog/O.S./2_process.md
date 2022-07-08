@@ -1,5 +1,5 @@
 ---
-title: '[OS] 프로세스'
+title: '[공룡책] 프로세스'
 date: 2020-07-02 16:21:13
 category: 'O.S.'
 draft: false
