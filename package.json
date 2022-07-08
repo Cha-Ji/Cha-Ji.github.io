@@ -78,6 +78,9 @@
     "type": "git",
     "url": "git+https://github.com/Cha-Ji/Cha-Ji.github.io.git"
   },
+  "resolutions": {
+    "node-sass": "https://registry.npmjs.org/node-sass/-/node-sass-7.0.0.tgz"
+  },
   "scripts": {
     "post": "gatsby-post-gen",
     "dev": "gatsby develop",
@@ -87,6 +90,7 @@
     "start": "npm run develop",
     "build": "gatsby build",
     "fix-semi": "eslint --quiet --ignore-pattern node_modules --ignore-pattern public --parser babel-eslint --no-eslintrc --rule '{\"semi\": [2, \"never\"], \"no-extra-semi\": [2]}' --fix gatsby-node.js",
-    "deploy": "gatsby build && gh-pages -d public -b develop -r 'git@github.com:Cha-Ji/Cha-Ji.github.io.git'"
+    "deploy": "gatsby build && gh-pages -d public -b develop -r 'git@github.com:Cha-Ji/Cha-Ji.github.io.git'",
+    "preinstall": "npx npm-force-resolutions"
   }
 }
