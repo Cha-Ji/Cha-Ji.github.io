@@ -10,10 +10,10 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v2
-
       - name: yarn install
         run: yarn install
-
+      - name: npm install
+        run: npm install --legacy-peer-deps
       - name: gatsby build
         env:
           GH_API_KEY: ${{ secrets.API_KEY }}
