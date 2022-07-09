@@ -16,3 +16,4 @@ jobs:
         with:
           access-token: ${{ secrets.API_KEY }}
           gatsby-args: --verbose
+          node-version: ${{ matrix.node-version }}
