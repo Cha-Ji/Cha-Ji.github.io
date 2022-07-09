@@ -1,6 +1,6 @@
 ---
 title: '[공룡책] 동기화'
-date: 2020-07-02 16:21:13
+date: 2020-07-05 16:21:13
 category: 'O.S.'
 draft: false
 ---

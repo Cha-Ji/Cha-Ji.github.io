@@ -1,6 +1,6 @@
 ---
 title: '[공룡책] 스레드'
-date: 2020-07-02 16:21:13
+date: 2020-07-03 16:21:13
 category: 'O.S.'
 draft: false
 ---

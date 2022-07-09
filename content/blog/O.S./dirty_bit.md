@@ -1,6 +1,6 @@
 ---
 title: '[OS] Dirty Bit'
-date: 2020-07-02 16:21:13
+date: 2020-07-09 16:21:13
 category: 'O.S.'
 draft: false
 ---
