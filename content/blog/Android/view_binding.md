@@ -1,6 +1,6 @@
 ---
 title: '[Android] View Binding'
-date: 2000-07-02 16:21:13
+date: 2000-07-03 16:21:13
 category: 'Android'
 draft: false
 ---
