@@ -1,6 +1,6 @@
 ---
-title: '[Android] Collection'
-date: 2000-07-02 16:21:13
+title: '[Android] MVC 패턴'
+date: 2000-07-01 16:21:13
 category: 'Android'
 draft: false
 ---
