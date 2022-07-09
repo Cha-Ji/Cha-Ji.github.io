@@ -1,5 +1,5 @@
 ---
-title: '[Android] Collection'
+title: '[Android] LiveData'
 date: 2000-07-02 16:21:13
 category: 'Android'
 draft: false
