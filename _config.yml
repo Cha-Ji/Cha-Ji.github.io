@@ -1,0 +1,5 @@
+analytics:
+  provider: "google-gtag"
+
+  google:
+    tracking-id:"G-DEFCS62WJ5"
