@@ -88,6 +88,8 @@
     "start": "npm run develop",
     "build": "gatsby build",
     "fix-semi": "eslint --quiet --ignore-pattern node_modules --ignore-pattern public --parser babel-eslint --no-eslintrc --rule '{\"semi\": [2, \"never\"], \"no-extra-semi\": [2]}' --fix gatsby-node.js",
-    "deploy": "gatsby build && gh-pages -d public -b develop -r 'git@github.com:Cha-Ji/Cha-Ji.github.io.git'"
+    "copy-google": "cp google82a13b29323fe557.html public/",
+    "copy-naver": "cp naver5048aa958e77d4a8ca229772f385bf7b.html public/",
+    "deploy": "gatsby build && npm run copy-google && npm run copy-naver && gh-pages -d public -b develop -r 'git@github.com:Cha-Ji/Cha-Ji.github.io.git'"
   }
 }
