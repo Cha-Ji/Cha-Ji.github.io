@@ -36,26 +36,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_PAT: ${{ secrets.API_KEY }}
           BUILD_DIR: 'public/'
-
-# name: GatsbyJS Deploy
-# on:
-#   push:
-#     branches:
-#       - gh-pages
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - uses: actions/setup-node@v3
-#         with:
-#           node-version: 14.20.0
-#       - name: Gatsby Publish
-#         uses: enriikke/gatsby-gh-pages-action@v2.1.1
-#         with:
-#           access-token: ${{ secrets.API_KEY }}
-#           gatsby-args: --verbose
-#       - name: cp auth
-#         run : |
-#           cp google82a13b29323fe557.html public/
-#           cp naver5048aa958e77d4a8ca229772f385bf7b.html public/
