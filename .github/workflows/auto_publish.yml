@@ -18,5 +18,4 @@ jobs:
           gatsby-args: --verbose
       - name: cp google auth
         run : |
-          cp CNAME public/
           cp google82a13b29323fe557.html public/
