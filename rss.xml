@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Cha-Ji]]></title><description><![CDATA[Cha-Ji's Blog]]></description><link>https://Cha-Ji.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 07 Aug 2022 11:21:06 GMT</lastBuildDate><item><title><![CDATA[[O.S.] Thread vs Process]]></title><description><![CDATA[프로세스 프로그램은 실행할 수 있는 파일을 말하며 코드 덩어리에 불과합니다.
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Cha-Ji]]></title><description><![CDATA[Cha-Ji's Blog]]></description><link>https://Cha-Ji.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 07 Aug 2022 13:59:51 GMT</lastBuildDate><item><title><![CDATA[[O.S.] Thread vs Process]]></title><description><![CDATA[프로세스 프로그램은 실행할 수 있는 파일을 말하며 코드 덩어리에 불과합니다.
 프로세스는 실행되고 있는 프로그램의 인스턴스를 뜻합니다. 독립된 Code, Data, Stack, Heap 메모리 영역을 할당받으며 최소…]]></description><link>https://Cha-Ji.github.io/O.S./thread_vs_process/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./thread_vs_process/</guid><pubDate>Sun, 07 Aug 2022 18:05:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;프로세스&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4&quot; aria-label=&quot;프로세스 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로세스&lt;/h2&gt;
 &lt;p&gt;프로그램은 실행할 수 있는 파일을 말하며 코드 덩어리에 불과합니다.
 프로세스는 실행되고 있는 프로그램의 인스턴스를 뜻합니다.&lt;/p&gt;
@@ -493,6 +493,672 @@ notion을 사용하니 프로토타입 툴인 figma도 임베드해 회의할 �
 &lt;ul&gt;
 &lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/JaeYeopHan/Interview_Question_for_Beginner/tree/master/OS#%EA%B0%80%EC%83%81-%EB%A9%94%EB%AA%A8%EB%A6%AC&quot;&gt;https://github.com/JaeYeopHan/Interview_Question_for_Beginner/tree/master/OS#가상-메모리&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[공룡책] 동기화 예제]]></title><description><![CDATA[Operating System…]]></description><link>https://Cha-Ji.github.io/O.S./6_sync_ex/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./6_sync_ex/</guid><pubDate>Mon, 04 Jul 2022 16:21:13 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;/1f5e129a070e20d28acbefc0f6aea615/5_sync.md&quot;&gt;Operating System - 동기화&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;이전 글에서는 발생할 수 있는 문제에 대해 많이 언급했습니다.&lt;/p&gt;
+&lt;p&gt;또한 임계구역 문제, 경쟁조건이 없는 프로그램을 설계할 때 발생하는 문제, 교착상태, 라이브니스 위험 등을 언급했습니다.&lt;/p&gt;
+&lt;p&gt;이 글에서는 제시된 도구를 고전적인 동기화 문제에 적용합니다.&lt;/p&gt;
+&lt;h2 id=&quot;유한-버퍼-문제&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9C%A0%ED%95%9C-%EB%B2%84%ED%8D%BC-%EB%AC%B8%EC%A0%9C&quot; aria-label=&quot;유한 버퍼 문제 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;유한 버퍼 문제&lt;/h2&gt;
+&lt;p&gt;먼저 유한 버퍼 문제가 존재합니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;유한한 개수의 item을 임시로 보관하는 버퍼에 여러 명의 생산자들과 소비자들이 접근한다.
+생산자는 item이 하나 만들어지면 그 공간에 저장한다.
+이때 저장할 공간이 없는 문제가 발생할 수 있다.
+소비자는 item이 필요할 때 버퍼에서 item을 하나 가져온다.
+이 때는 소비할 item이 없는 문제가 발생할 수 있다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;출처: &lt;a href=&quot;https://ko.wikipedia.org/wiki/%EC%83%9D%EC%82%B0%EC%9E%90-%EC%86%8C%EB%B9%84%EC%9E%90_%EB%AC%B8%EC%A0%9C&quot;&gt;https://ko.wikipedia.org/wiki/생산자-소비자_문제&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이 문제를 해결하는 것을 생산자-소비자 협동이라 하며 버퍼가 동기화되어 정상적으로 동작하는 상태를 뜻합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;kotlin&quot;&gt;&lt;pre class=&quot;language-kotlin&quot;&gt;&lt;code class=&quot;language-kotlin&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// n개의 버퍼로 구성된 pool이 존재하며 각 버퍼는 한 item을 저장&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; n&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Int
+&lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; mutex&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Semaphore &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 상호 배제 기능을 제공&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; empty&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Semaphore &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; n  &lt;span class=&quot;token comment&quot;&gt;// 비어있는 버퍼 수&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; full&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Semaphore &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;   &lt;span class=&quot;token comment&quot;&gt;// 사용중인 버퍼 수&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;//================================================&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// 생산자&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// produce&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;empty&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;mutex&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+  &lt;span class=&quot;token comment&quot;&gt;// next produce&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;signal&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;mutex&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;signal&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;full&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;//================================================&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// 소비자&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;token function&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;full&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;token function&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;mutex&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;token comment&quot;&gt;// remove item&lt;/span&gt;
+
+   &lt;span class=&quot;token function&quot;&gt;signal&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;mutex&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;token function&quot;&gt;signal&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;empty&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;token comment&quot;&gt;//consume&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;readers-writers-문제&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#readers-writers-%EB%AC%B8%EC%A0%9C&quot; aria-label=&quot;readers writers 문제 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Readers-Writers 문제&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;병행 프로세스들이 한 DB를 공유한다면 배타적 접근 권한이 필요합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;첫 번째 문제&lt;/li&gt;
+&lt;li&gt;공유 객체를 사용할 수 있는 허가를 얻지 못했다면, 다른 reader들이 끝날 때까지 기다리는 reader가 있으면 안된다.&lt;/li&gt;
+&lt;li&gt;→ writer의 starvation&lt;/li&gt;
+&lt;li&gt;두 번째 문제&lt;/li&gt;
+&lt;li&gt;writer가 접근중이라면, 새 reader들은 읽기를 시작할 수 없다.&lt;/li&gt;
+&lt;li&gt;→ reader의 starvation&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;reader-wirter-lock&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#reader-wirter-lock&quot; aria-label=&quot;reader wirter lock permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Reader-wirter lock&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;해당 문제는 두 가지모드를 지원하는 락을 둬서 해결합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;읽기모드의 락, 쓰기모드의 락이 존재합니다.&lt;/li&gt;
+&lt;li&gt;reader 락은 여러 프로세스가 동시에 획득하는 것이 가능합니다.&lt;/li&gt;
+&lt;li&gt;writer 락은 하나의 프로세스만 획득할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;다음과 같은 상황에서 유용합니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;공유데이터를 읽기만하는 프로세스와 쓰기만하는 스레드를 식별하기 쉬운 응용&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wirter보다 reader의 개수가 많은 응용&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;reader-writer lock을 설정하는 오버헤드는 semaphore나 mutex를 설정할 때보다 큽니다.&lt;/li&gt;
+&lt;li&gt;reader들의 병행성을 높여 상쇄합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;식사하는-철학자&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8B%9D%EC%82%AC%ED%95%98%EB%8A%94-%EC%B2%A0%ED%95%99%EC%9E%90&quot; aria-label=&quot;식사하는 철학자 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;식사하는 철학자&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;이전 글에서 언급한 식사하는 철학자 문제의 해결안을 살펴봅니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;1. 일정 시간 생각을 한다.
+2. 왼쪽 포크가 사용 가능해질 때까지 대기한다. 만약 사용 가능하다면 집어든다.
+3. 오른쪽 포크가 사용 가능해질 때까지 대기한다. 만약 사용 가능하다면 집어든다.
+4. 양쪽의 포크를 잡으면 일정 시간만큼 식사를 한다.
+5. 오른쪽 포크를 내려놓는다.
+6. 왼쪽 포크를 내려놓는다.
+7. 다시 1번으로 돌아간다&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;두 포크를 모두 집을 수 있는지 판단한 뒤에 집습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;임계구역 안에서만 포크를 집어야합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;비대칭 해결안을 활용합니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;예를 들어, 홀수번호는 왼쪽 포크부터 집고 짝수번호는 오른쪽 포크부터 집습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;우선순위로 해결합니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;포크에 우선순위를 두고 양쪽 포크 중 우선순위가 높은 포크부터 집습니다.&lt;/li&gt;
+&lt;li&gt;한 명은 하나의 포크도 집을 수 없게 되고 한명이 식사를 마치면 두명씩 식사를 할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;시간제한으로 해결합니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;사용하지 않는 포크에 시간제한을 둡니다.&lt;/li&gt;
+&lt;li&gt;동시에 내려놓지 않는다고 가정하면 한 명이 포크를 내려놓는 순간 옆자리 한명이 식사를 시작하게 됩니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;해당 해결안들은 효율성이 고려되지 않았습니다.&lt;/p&gt;
+&lt;p&gt;데드락이 없는 해결안이 반드시 기아의 가능성도 제거하지는 않습니다.&lt;/p&gt;
+&lt;h2 id=&quot;모니터&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A8%EB%8B%88%ED%84%B0&quot; aria-label=&quot;모니터 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;모니터&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;앞서 언급한 식사하는 철학자의 해결안을 제시하며 모니터의 개념을 설명합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;양쪽 포크를 모두 집을 수 있을 때에만 포크를 집을 수 있도록 강제합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;enum class State {
+    THINKING,
+    HUNGRY,
+    EATING
+}
+
+class DiningPhilosophers : Monitor {
+
+    val state = mutableListOf&amp;lt;State&gt;()
+
+    // 원하는 포크를 집을 수 없을 때 집기를 미룰 수 있게 한다.    
+    val self = mutableListOf&amp;lt;Condition&gt;() 
+
+    init {
+        (0..5).forEach { i -&gt;
+            state.append(THINKING)
+        }
+    }
+
+    // 식사 전
+    fun pickUp(i: Int) {
+        state[i] = HUNGRY
+        eat(i)
+
+        if (state[i] != EATING) self[i].wait()    
+  }
+
+  // 식사 후
+    fun putDown(i: Int) {
+        state[i] = THINKING
+        eat(left(i))
+        eat(right(i))
+    }
+
+    private fun left(i: Int) = (i + 4) % 5
+
+    private fun right(i: Int) = (i + 1) % 5
+
+    fun eat(i: Int) {
+        if (canEat(i)) {
+                state[i] = EATING
+                self[i].signal()
+        }
+    }
+
+    private fun canEat(i: Int) = state[left(i)] != EATING &amp;amp;&amp;amp; 
+        state[i] == HUNGRY &amp;amp;&amp;amp; 
+        state[right(i)] != EATING
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;해당 코드는 공룡책 그림7.7의 코드를 kotlin으로 작성했으며, 가독성을 위해 코드를 세분화한 코드입니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;데드락을 해결한 코드이지만 기아 상태를 해결하진 못했습니다.&lt;/p&gt;
+&lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[공룡책] 동기화]]></title><description><![CDATA[논리 주소 공간을 공유하는 협력적 프로세스의 질서 있는 실행을 보장하며 이를 통해 데이터의 일관성을 유지하는 다양한 매커니즘을 논의합니다. 임계구역 Critical Section…]]></description><link>https://Cha-Ji.github.io/O.S./5_sync/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./5_sync/</guid><pubDate>Sun, 03 Jul 2022 20:21:13 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;논리 주소 공간을 공유하는 협력적 프로세스의 질서 있는 실행을 보장하며 이를 통해 데이터의 일관성을 유지하는 다양한 매커니즘을 논의합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;임계구역&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9E%84%EA%B3%84%EA%B5%AC%EC%97%AD&quot; aria-label=&quot;임계구역 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;임계구역&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Critical Section&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;각 프로세스는 임계구역이라고 부르는 코드 부분을 포함하고 있고,&lt;br&gt;
+그 안에서는 하나 이상의 다른 프로세스와 공유하는 데이터에 접근하고 갱신할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;임계구역 문제는 상호배제, 진행, 한정된 대기 세 가지 요구사항을 충족해야 합니다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Mutual Exclusion&lt;/li&gt;
+&lt;li&gt;프로세스가 Critical Section에서 실행중이라면, 다른 프로세스들은 그들이 가진 Critical Section에서 실행될 수 없습니다.&lt;/li&gt;
+&lt;li&gt;Progress&lt;/li&gt;
+&lt;li&gt;Ciritical Section에서 실행중인 프로세스가 없고 별도의 동작이 없는 프로세스들만 Critical Section 진입 후보로서 참여될 수 있습니다.&lt;/li&gt;
+&lt;li&gt;Bounded Waiting&lt;/li&gt;
+&lt;li&gt;프로세스가 Critical Section에 진입 신청 후부터 받아들여질 때까지 다른 프로세스들이 Critical Section에 진입하는 횟수는 제한이 있어야 합니다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;상호 배제를 통해 한 번에 하나의 프로세스만 임계구역에서 활성화됩니다.&lt;br&gt;
+진행을 통해 임계구역에 어떤 프로세스가 들어갈지 협력적으로 결정합니다.&lt;br&gt;
+한정된 대기를 통해 프로그램이 자신의 임계구역에 들어가기 전 대기시간을 제한합니다.&lt;/p&gt;
+&lt;p&gt;해당 임계구역 문제의 해결책으로 Mutex Lock, Semaphores를 활용할 수 있습니다.&lt;/p&gt;
+&lt;h3 id=&quot;mutex-semaphore&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#mutex-semaphore&quot; aria-label=&quot;mutex semaphore permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Mutex, Semaphore&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Mutex는 한 스레드나 프로세스에 의해 소유될 수 있는 key를 기반으로 상호를 배제합니다.&lt;/li&gt;
+&lt;li&gt;누군가가 key를 갖고 있다면 다른이는 key를 사용할 수 없고 대기합니다.&lt;/li&gt;
+&lt;li&gt;반납을 해야지만 다시 key를 사용할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;Semaphore는 현재 공유자원에 접근할 수 있는 스레드와 프로세스의 수를 변수로 두어 상호를 배제합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;화장실로 비유할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;뮤텍스는 화장실이 하나 뿐인 식당과 비슷합니다.&lt;br&gt;
+앞서 입장한 손님이 키를 소유하고, 화장실에서 나올 때 키를 반납합니다.&lt;br&gt;
+뒤이어 입장하는 손님들은 키가 반납될 때까지 카운터에서 대기합니다.&lt;br&gt;
+이로써 화장실에 동시에 여러명이 존재하는 상황을 막습니다.&lt;/p&gt;
+&lt;p&gt;세마포어는 화장실의 칸이 여러개인 식당과 비슷합니다.&lt;br&gt;
+앞서 입장한 손님들이 화장실 칸에 들어갈 때 전광판에 남은 칸의 개수를 비춥니다.&lt;br&gt;
+손님들이 퇴장하면 전광판의 숫자가 오르며&lt;br&gt;
+전광판에 숫자 0이 표시되면 손님들은 대기합니다.&lt;/p&gt;
+&lt;h4 id=&quot;카운팅--이진-세마포&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%B9%B4%EC%9A%B4%ED%8C%85--%EC%9D%B4%EC%A7%84-%EC%84%B8%EB%A7%88%ED%8F%AC&quot; aria-label=&quot;카운팅  이진 세마포 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;카운팅 / 이진 세마포&lt;/h4&gt;
+&lt;p&gt;카운팅 세마포는 가용한 개수를 가진 자원에 대해 접근 제어용으로 사용되며, 세마포는 그 가용한 자원의 개수로 초기화됩니다.&lt;br&gt;
+자원을 사용하면 세마포가 감소, 방출하면 세마포가 증가합니다.&lt;/p&gt;
+&lt;p&gt;이진 세마포는 Mutex라고도 부르며 Mutual Exclusion의 준말입니다.&lt;br&gt;
+0과 1 사이 값만 가능하며 다중 프로세스 간 Critical Section 문제를 해결하기 위해 사용합니다.&lt;/p&gt;
+&lt;p&gt;위 뮤텍스와 세마포 방법은 말로만 들으면 만능 기법이지만 당연히 단점이 존재합니다.&lt;/p&gt;
+&lt;h3 id=&quot;바쁜-대기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B0%94%EC%81%9C-%EB%8C%80%EA%B8%B0&quot; aria-label=&quot;바쁜 대기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;바쁜 대기&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Busy Waiting&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Critical Section에 진입해야하는 프로세스는 진입 코드를 계속 반복 실행해야하며 CPU 시간을 낭비했습니다.&lt;br&gt;
+진입을 실패한 프로세스를 block시킨 뒤 자리가 날 때 다시 깨우는 방식으로 해당 Busy Waiting을 해결합니다.&lt;/p&gt;
+&lt;h3 id=&quot;모니터&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A8%EB%8B%88%ED%84%B0&quot; aria-label=&quot;모니터 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;모니터&lt;/h3&gt;
+&lt;p&gt;고급 언어의 설계 구조물로써 개발자의 코드를 상호배제 하게끔 만든 추상화된 데이터 형태입니다.&lt;br&gt;
+공유자원에 접근하기 위한 키 획득과 자원 사용 후 해제를 모두 처리합니다.&lt;/p&gt;
+&lt;p&gt;mutex가 보장되며 접근중인 스레드가 wait 상태일 때 새 스레드가 접근할 수 있게 됩니다.&lt;br&gt;
+새 스레드는 대기중인 스레드에게 notify할 수 있고 깨어난 스레드는 critical section에 진입할 수 있게 됩니다.&lt;/p&gt;
+&lt;p&gt;자바에서 싱글톤 패턴을 구현할 때 인스턴스의 생성 여부를 확인하기 위해 synchronized 키워드를 사용하곤 합니다.&lt;/p&gt;
+&lt;h3 id=&quot;데드락-철학자의-만찬&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8D%B0%EB%93%9C%EB%9D%BD-%EC%B2%A0%ED%95%99%EC%9E%90%EC%9D%98-%EB%A7%8C%EC%B0%AC&quot; aria-label=&quot;데드락 철학자의 만찬 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;데드락: 철학자의 만찬&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;일정 시간 생각을 한다.&lt;/li&gt;
+&lt;li&gt;왼쪽 포크가 사용 가능해질 때까지 대기한다. 만약 사용 가능하다면 집어든다.&lt;/li&gt;
+&lt;li&gt;오른쪽 포크가 사용 가능해질 때까지 대기한다. 만약 사용 가능하다면 집어든다.&lt;/li&gt;
+&lt;li&gt;양쪽의 포크를 잡으면 일정 시간만큼 식사를 한다.&lt;/li&gt;
+&lt;li&gt;오른쪽 포크를 내려놓는다.&lt;/li&gt;
+&lt;li&gt;왼쪽 포크를 내려놓는다.&lt;/li&gt;
+&lt;li&gt;다시 1번으로 돌아간다&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;데드락은 교착상태를 뜻합니다.&lt;/p&gt;
+&lt;p&gt;둘 이상의 프로세스가 Critical Section의 진입을 무한정 기다리고 있는 현상입니다.&lt;/p&gt;
+&lt;p&gt;만약 프로세스A가 자원1을 사용하는데 자원 2가 필요합니다.&lt;/p&gt;
+&lt;p&gt;동시에 프로세스B가 자원2를 사용하는데 자원 1이 필요합니다.&lt;/p&gt;
+&lt;p&gt;서로를 무한정 기다리며 교착상태에 빠지게 됩니다.&lt;/p&gt;
+&lt;p&gt;공유 자원에서 상호를 배제하다보면 발생할 수 있는 문제입니다.&lt;/p&gt;
+&lt;h3 id=&quot;발생-조건&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B0%9C%EC%83%9D-%EC%A1%B0%EA%B1%B4&quot; aria-label=&quot;발생 조건 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;발생 조건&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Mutual Exclusion: 상호를 배제한 상태 (포크는 동시에 한 철학자만 사용할 수 있다.)&lt;/li&gt;
+&lt;li&gt;Hold and Wait: 최소 하나의 자원을 점유하면서 다른 자원까지 탐내는 상태 (포크를 하나 갖고 있지만 다른 포크도 기다린다.)&lt;/li&gt;
+&lt;li&gt;No preemption: 이미 할당된 자원을 빼앗을 수 없는 상태 (사용중인 포크를 빼앗을 수 없다.)&lt;/li&gt;
+&lt;li&gt;Circular wait: 순환 형태로 자원을 대기하는 상태 (모든 철학자가 포크를 기다린다.)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;대처&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8C%80%EC%B2%98&quot; aria-label=&quot;대처 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;대처&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;예방&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;상호배제 부정: 여러 프로세스가 자원을 공유한다.&lt;/li&gt;
+&lt;li&gt;점유대기 부정: 프로세스 실행 전 모든 자원을 할당한다.&lt;/li&gt;
+&lt;li&gt;비선점 부정: 점유중인 자원을 요구하면 반납&lt;/li&gt;
+&lt;li&gt;순환대기 부정: 자원에 고유번호 할당 후 순서대로 자원 요구&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;회피&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;은행원 알고리즘&lt;br&gt;
+프로세스가 자원을 요구할 때 시스템은 자원을 할당한 후에도 안정 상태로 남아있게 되는지 사전에 검사&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;탐지&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;자원 요청 시 탐지&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;회복&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;교착상태를 일으킨 프로세스를 종료하거나 자원을 해제&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://worthpreading.tistory.com/90&quot;&gt;https://worthpreading.tistory.com/90&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/JaeYeopHan/Interview_Question_for_Beginner/tree/master/OS#cpu-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%9F%AC&quot;&gt;면접질문&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://m.blog.naver.com/PostView.naver?blogId=hirit808&amp;#x26;logNo=221793966623&amp;#x26;targetKeyword=&amp;#x26;targetRecommendationCode=1&quot;&gt;모니터&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[공룡책] CPU 스케줄링]]></title><description><![CDATA[운영체제는 CPU를 프로세스 간 교환함으로써 보다 생산적으로 동작합니다. 코어가 하나인 시스템에선 한순간에 오직 하나의 프로세스만이 실행될 수 있습니다. 나머지 프로세스는 CPU…]]></description><link>https://Cha-Ji.github.io/O.S./4_scheduling/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./4_scheduling/</guid><pubDate>Sun, 03 Jul 2022 16:21:13 GMT</pubDate><content:encoded>&lt;p&gt;운영체제는 CPU를 프로세스 간 교환함으로써 보다 생산적으로 동작합니다.&lt;/p&gt;
+&lt;p&gt;코어가 하나인 시스템에선 한순간에 오직 하나의 프로세스만이 실행될 수 있습니다.&lt;/p&gt;
+&lt;p&gt;나머지 프로세스는 CPU의 코어가 가용 상태가 되어야 실행시킬 수 있으며&lt;/p&gt;
+&lt;p&gt;다중 프로그래밍의 목적은 CPU 이용률을 최대화하기 위해 항상 실행중인 프로세스를 가지게 하는 데 있습니다.&lt;/p&gt;
+&lt;p&gt;이 때 프로세스 또는 스레드 바쁘게 사용하기 위한 스케줄링에 대해 알아보겠습니다.&lt;/p&gt;
+&lt;h2 id=&quot;스케줄링&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81&quot; aria-label=&quot;스케줄링 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스케줄링&lt;/h2&gt;
+&lt;hr&gt;
+&lt;p&gt;그냥 선착순으로 실행하고 끝내면 공평할텐데 왜 스케줄링 알고리즘이 필요할까요?&lt;/p&gt;
+&lt;p&gt;은행에 사람이 7명 줄을 섭니다.&lt;/p&gt;
+&lt;p&gt;맨 앞사람은 3시간짜리 업무를 보러 왔습니다. 그 뒤에 6사람은 모두 5분이 걸립니다.&lt;/p&gt;
+&lt;p&gt;6사람은 다들 3시간 이상의 대기시간을 갖습니다. 총 대기시간은 20시간 정도 되네요.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;사람”&lt;/th&gt;
+&lt;th&gt;걸리는 시간”&lt;/th&gt;
+&lt;th&gt;대기 시간”&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;가&lt;/td&gt;
+&lt;td&gt;3시간&lt;/td&gt;
+&lt;td&gt;0분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;나&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;3시간&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;다&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;3시간 5분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;라&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;3시간 10분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;마&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;3시간 15분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;바&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;3시간 20분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;사&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;3시간 25분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;물론 먼저온 사람이 먼저 업무를 보는것이 공평하지만&lt;/p&gt;
+&lt;p&gt;프로세스에게 공평함이 필요할까요? 총 대기시간만 적으면 될 것 같은데..&lt;/p&gt;
+&lt;p&gt;오래 걸리는 사람이 제일 늦게 업무를 본다면 어떨까요? 대기시간은 2시간조차 되지 않네요.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;사람”&lt;/th&gt;
+&lt;th&gt;걸리는 시간”&lt;/th&gt;
+&lt;th&gt;대기 시간”&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;나&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;0분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;다&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;라&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;10분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;마&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;15분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;바&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;20분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;사&lt;/td&gt;
+&lt;td&gt;5분&lt;/td&gt;
+&lt;td&gt;25분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;가&lt;/td&gt;
+&lt;td&gt;3시간&lt;/td&gt;
+&lt;td&gt;30분&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;이처럼, 큰 프로그램이 메모리를 점거해 전체적인 성능 저하를 불러일으키는 것 때문에&lt;br&gt;
+스케줄링 알고리즘이 필요합니다.&lt;/p&gt;
+&lt;p&gt;스케줄링에는 크게 선점 스케줄링과 비선점 스케줄링이 있습니다.&lt;/p&gt;
+&lt;p&gt;선점 스케줄링은 스케줄링이 발생할 때 기존 실행중인 프로세스를 선점하는 기법입니다.&lt;/p&gt;
+&lt;p&gt;데드락을 방지할 필요가 있는 기법입니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;new process → running&lt;/li&gt;
+&lt;li&gt;running process → waiting&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;비선점 스케줄링은 context switching 전에 실행이 완료되고 프로세스가 봉쇄되기를 기다립니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;running process ~~~ running&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;스케줄링-기법&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81-%EA%B8%B0%EB%B2%95&quot; aria-label=&quot;스케줄링 기법 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스케줄링 기법&lt;/h2&gt;
+&lt;h3 id=&quot;선입선처리-스케줄링fcfs&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%84%A0%EC%9E%85%EC%84%A0%EC%B2%98%EB%A6%AC-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81fcfs&quot; aria-label=&quot;선입선처리 스케줄링fcfs permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;선입선처리 스케줄링(FCFS)&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;First-Come First-Served&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;비선점형 기법입니다.&lt;/p&gt;
+&lt;p&gt;먼저 실행된 프로세스부터 처리하며 CPU 버스트가 완료될 때까지 CPU를 반환하지 않습니다.&lt;/p&gt;
+&lt;p&gt;단점으로는 긴 프로세스가 CPU를 양도하길 기다리는 호위 효과가 발생합니다.&lt;/p&gt;
+&lt;h3 id=&quot;최단작업우선-스케줄링sjf&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%B5%9C%EB%8B%A8%EC%9E%91%EC%97%85%EC%9A%B0%EC%84%A0-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81sjf&quot; aria-label=&quot;최단작업우선 스케줄링sjf permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;최단작업우선 스케줄링(SJF)&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Shortest-Job-First&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;평균 대기시간이 최소인 스케줄링 기법입니다.&lt;/p&gt;
+&lt;p&gt;이상적이지만 문제점이 있습니다. 실제로 실행되지도 않은 CPU 버스트의 길이를 예언하는건 불가능합니다.&lt;/p&gt;
+&lt;p&gt;때문에 이전 버스트의 길이와 비슷하다고 기대하고 예측하여 사용합니다.&lt;/p&gt;
+&lt;p&gt;단점으로는 긴 프로세스는 평생 실행시킬 수 없는 효과가 발생합니다.&lt;/p&gt;
+&lt;h3 id=&quot;라운드-로빈-스케줄링rr&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A1%9C%EB%B9%88-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81rr&quot; aria-label=&quot;라운드 로빈 스케줄링rr permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;라운드 로빈 스케줄링(RR)&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Round-Robin&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;FCFS에서 선점이 추가된 방식입니다.&lt;/p&gt;
+&lt;p&gt;각 프로세스는 동일한 크기의 할당 시간을 갖게됩니다.&lt;/p&gt;
+&lt;p&gt;할당시간이 끝나면 선점당하며 준비 큐의 맨 뒤로 가게됩니다.&lt;/p&gt;
+&lt;p&gt;할당 시간이 너무 크면 FCFS와 같아져서 문제가 되지만 문맥 교환 시간에 비해서는 커야합니다.&lt;/p&gt;
+&lt;h3 id=&quot;우선순위-스케줄링&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9A%B0%EC%84%A0%EC%88%9C%EC%9C%84-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81&quot; aria-label=&quot;우선순위 스케줄링 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;우선순위 스케줄링&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Priority&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;우선순위가 가장 높은 프로세스에게 CPU를 할당하는 스케줄링입니다.&lt;/p&gt;
+&lt;p&gt;선점과 비선점 모두 가능합니다.&lt;/p&gt;
+&lt;p&gt;선점형에서는 더 높은 우선순위의 프로세스가 도착하면 선점하며,&lt;/p&gt;
+&lt;p&gt;비선점형에서는 준비 큐의 head에 넣게 됩니다.&lt;/p&gt;
+&lt;p&gt;단점으로는 실행준비는 되어있지만 CPU를 사용할 수 없는 프로세스를 CPU가 무한히 대기하는 상태가 존재합니다.&lt;/p&gt;
+&lt;p&gt;하지만 해결책으로 대기시간에 따라 우선순위를 보정하는 aging이 존재합니다.&lt;/p&gt;
+&lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/JaeYeopHan/Interview_Question_for_Beginner/tree/master/OS#cpu-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%9F%AC&quot;&gt;https://github.com/JaeYeopHan/Interview_Question_for_Beginner/tree/master/OS#cpu-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%9F%AC&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[공룡책] 스레드]]></title><description><![CDATA[앞서 작성한 운영체제, 프로세스에 이어 스레드에 대해 간단히 이야기합니다. 스레드 CPU 이용의 기본 단위입니다. 스레드 ID, PC, 레지스터 집합, 스택으로 구성됩니다. 프로세스 vs…]]></description><link>https://Cha-Ji.github.io/O.S./3_thread/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./3_thread/</guid><pubDate>Sat, 02 Jul 2022 18:21:13 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;앞서 작성한 운영체제, 프로세스에 이어 스레드에 대해 간단히 이야기합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;스레드&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%EB%A0%88%EB%93%9C&quot; aria-label=&quot;스레드 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스레드&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;CPU 이용의 기본 단위입니다.&lt;/li&gt;
+&lt;li&gt;스레드 ID, PC, 레지스터 집합, 스택으로 구성됩니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;프로세스-vs-스레드&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-vs-%EC%8A%A4%EB%A0%88%EB%93%9C&quot; aria-label=&quot;프로세스 vs 스레드 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로세스 vs 스레드&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;프로세스는 실행중인 프로그램의 인스턴스이며, 스레드는 실행되는 흐름의 단위입니다.&lt;br&gt;
+한 프로그램에서 둘 이상의 프로세스를 생성한다면 빈번한 context switching으로 성능 저하가 생깁니다.&lt;br&gt;
+그래서 스레드가 탄생했으며 스레드는 한 프로그램에서의 여러 실행흐름입니다.&lt;br&gt;
+스레드는 여러 영역을 공유하지만 스택은 독립적으로 소유합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;스레드의-공유영역&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%EB%A0%88%EB%93%9C%EC%9D%98-%EA%B3%B5%EC%9C%A0%EC%98%81%EC%97%AD&quot; aria-label=&quot;스레드의 공유영역 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스레드의 공유영역&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Stack(공유되지 않음)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;스택은 함수 호출 시 전달되는 parameter, return address가 저장됩니다. 각 스레드는 독립적으로 함수 호출이 가능하다는 이야기가 됩니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;PC Register(공유되지 않음)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;프로그램 카운터는 명령이 수행할 지점을 가리킵니다. 스레드는 결국 스케줄러에게 다시 선점당하기 때문에 명령어가 어디까지 수행됐는지 기억해야 합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Code&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Code영역이 공유돼야 자신이 포함된 프로세스의 함수를 호출할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Data &amp;#x26; Heap&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;전역변수와 메모리 공간을 공유합니다. 힙 영역이 공유되면 스레드 간 통신을 할 수 있게 됩니다.&lt;/li&gt;
+&lt;li&gt;IPC 없이도 통신이 가능합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;다중스레드&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8B%A4%EC%A4%91%EC%8A%A4%EB%A0%88%EB%93%9C&quot; aria-label=&quot;다중스레드 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;다중스레드&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;다중 스레드의 장점은 Responsiveness, Resource sharing, Economy, Scalability 네가지 부류로 나눌 수 있습니다.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;응답성(responsiveness)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;프로그램의 일부가 봉쇄되거나 긴 작업을 수행하더라도 프로그램 수행이 계속됩니다.&lt;/li&gt;
+&lt;li&gt;UI를 설계할 때 특히 유용합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;자원 공유(resource sharing)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;프로세스는 공유메모리, 메시지 전달 기법을 통해야만 자원을 공유할 수 있습니다.&lt;/li&gt;
+&lt;li&gt;스레든느 자동으로 그들이 속한 프로세스의 자원과 메모리를 공유합니다.&lt;/li&gt;
+&lt;li&gt;코드와 데이터 공유의 이점은 한 응용 프로그램이 같은 주소 공간 내 여러 다른 작업을 하는 스레드를 가질 수 있다는 점입니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;경제성(economy)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;프로세스 생성보다 스레드 생성이 경제적입니다. 또한 context switching 역시 스레드 사이에서 더 빠릅니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;규모 적응성(scalability)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;다중 처리기 구조에서 각각의 스레드가 병렬수행됩니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;java-thread&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#java-thread&quot; aria-label=&quot;java thread permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Java Thread&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Thread 클래스에서 파생된 새 클래스를 만들고 run() 메소드를 재정의해 스레드를 명시적으로 생성합니다.&lt;/li&gt;
+&lt;li&gt;Runnable 인터페이스의 구현체를 정의해 스레드를 명시적으로 생성합니다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;스레드-풀&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%EB%A0%88%EB%93%9C-%ED%92%80&quot; aria-label=&quot;스레드 풀 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스레드 풀&lt;/h3&gt;
+&lt;p&gt;다중 스레드 서버는 아직 여러 문제를 갖고 있습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;서비스할 때마다 스레드를 생성하는 데 소요되는 시간입니다.&lt;/li&gt;
+&lt;li&gt;최대 스레드 수를 정해야 합니다. 스레드가 무한하다면 CPU 시간, 메모리 공간 등의 시스템 자원이 고갈됩니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;이에 대한 대안이 스레드 풀입니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;프로세스를 시작할 때 일정한 수의 스레드들을 미리 풀로 만들어둡니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[공룡책] 프로세스]]></title><description><![CDATA[…]]></description><link>https://Cha-Ji.github.io/O.S./2_process/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./2_process/</guid><pubDate>Fri, 01 Jul 2022 16:41:13 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;앞서 작성한 운영체제에 이어서 프로세스에 대해 간단히 이야기합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;프로세스&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4&quot; aria-label=&quot;프로세스 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로세스&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;초기 컴퓨터 시스템은 한 번에 하나의 프로그램만을 실행시켰습니다.&lt;br&gt;
+반면 오늘날의 컴퓨터 시스템들은 메모리에 다수의 프로그램이 적재되어 병행 실행되는 것을 허용합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;프로세스란 실행중인 프로그램을 말합니다. 프로세스가 무엇이고 어떻게 표현되며 어떻게 동작하는지 알아보겠습니다.&lt;/p&gt;
+&lt;h3 id=&quot;프로세스의-특징&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4%EC%9D%98-%ED%8A%B9%EC%A7%95&quot; aria-label=&quot;프로세스의 특징 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로세스의 특징&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;병렬 실행이 가능합니다.&lt;/li&gt;
+&lt;li&gt;독립된 메모리 영역과 주소 공간을 운영체제로부터 할당받습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;프로세스-메모리-배치&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EB%B0%B0%EC%B9%98&quot; aria-label=&quot;프로세스 메모리 배치 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로세스 메모리 배치&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Code 영역, Data 영역, Heap 영역, Stack 영역이 존재합니다.&lt;/li&gt;
+&lt;li&gt;Code 영역, Data 영역은 Run time 동안 고정된 크기를 갖습니다. 하지만 Stack 영역과 Heap 영역은 동적으로 크기가 조정되며 서로의 방향으로 확장됩니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;pcb&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#pcb&quot; aria-label=&quot;pcb permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;PCB&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;PCB는 프로세스 제어 블록을 의미합니다.&lt;/li&gt;
+&lt;li&gt;프로세스 상태, 프로세스 번호, Program Counter, Register, 메모리 제한, 오픈 파일 리스트를 포함합니다.&lt;/li&gt;
+&lt;li&gt;프로세스 상태는 new, ready, running, waiting, halted가 존재합니다.&lt;/li&gt;
+&lt;li&gt;Program Counter는 다음에 실행할 명령어의 주소를 가리킵니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;context-switching&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#context-switching&quot; aria-label=&quot;context switching permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Context Switching&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;인터럽트가 발생할 때 현재 진행하고 있는 Task의 상태를 저장하고 다음 진행할 Task의 상태 값을 읽어 적용하는 과정입니다.&lt;/li&gt;
+&lt;li&gt;커널은 앞서 언급한 PCB에 문맥을 저장하고, 새 프로세스의 저장된 context를 복구합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;android-process-hierarchy&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#android-process-hierarchy&quot; aria-label=&quot;android process hierarchy permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Android Process Hierarchy&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;제한된 시스템 자원을 회수하기 위해 기존 프로세스를 종료해야 할 수도 있습니다.&lt;/li&gt;
+&lt;li&gt;중요도 계층을 식별합니다.&lt;/li&gt;
+&lt;li&gt;forground process -&gt; visible process -&gt; service process -&gt; background process -&gt; empty process&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;ipc&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#ipc&quot; aria-label=&quot;ipc permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;IPC&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;InterProcess Communication의 준말로 프로세스 간 통신을 의미합니다.&lt;/li&gt;
+&lt;li&gt;information sharing, computation speedup, modularity&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;IPC에는 shared memory, message passing 두 모델이 존재합니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;shared memory model&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;협력 프로세스들에 의해 공유되는 메모리의 영역이 구축됩니다.&lt;/li&gt;
+&lt;li&gt;공유 메모리 영역을 구축할 때만 시스템 콜이 필요합니다.&lt;/li&gt;
+&lt;li&gt;모든 접근이 일반적인 메모리 접근으로 취급되기 때문에 커널의 도움이 필요 없습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;message passing model&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;협력 프로세스들 사이에 교환되는 메시지를 통해 통신이 이루어집니다.&lt;/li&gt;
+&lt;li&gt;충돌을 회피할 필요가 없기 때문에 적은 양의 데이터를 교환하기 적합합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;많은 시스템들이 두 모델을 모두 구현합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;socket&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#socket&quot; aria-label=&quot;socket permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;socket&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;socket은 통신의 endpoint를 뜻합니다. ip주소와 포트번호를 접합하여 구별합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;rpc&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#rpc&quot; aria-label=&quot;rpc permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;RPC&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Remote Procedure Calls의 준말입니다. 또한 IPC 기반 위에 만들어집니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;anroid-rpc&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#anroid-rpc&quot; aria-label=&quot;anroid rpc permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Anroid RPC&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;RPC는 동일 시스템에서 실행되는 프로세스 간 IPC의 형태로 사용될 수도 있습니다.&lt;/li&gt;
+&lt;li&gt;Android OS는 바인더 프레임워크에 포함된 풍부한 IPC 기법의 집합을 갖는데, 이 중 RPC는 프로세스가 다른 프로세스의 서비스를 요청할 수 있게 합니다.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;이러한 응용 프로그램의 구성요소 중 하나는 서비스가 있습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;클라이언트 앱이 bindService()를 호출하면 해당 서비스가 bound 되어 메시지 전달 또는 RPC를 사용해 통신을 제공합니다.&lt;/li&gt;
+&lt;li&gt;Messenger 서비스는 단방향 통신만 가능합니다. 서비스와 클라이언트 모두 Messanger 서비스를 제공해야 서로 통신이 가능합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;onBind() 메소드는 상호작용을 위해 원격 오브젝트 안에 메소드를 정의하는 인터페이스를 반환해야 합니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;일반 java 구문으로 작성되며 (Android Interface Definition Language)를 사용해 스텁 파일을 생성합니다. 또한 (RemoteService.aidl)로 저장됩니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;bindService() -&gt; onBind() -&gt; RemoteService 객체의 스텁이 클라이언트에 반환 -&gt; remoteMethod()&lt;/li&gt;
+&lt;li&gt;매개변수 정돈을 처리 -&gt; 프로세스 사이에 정돈된 매개변수를 전송 -&gt; 필요한 서비스 구현을 호출 -&gt; 반환값을 클라이언트 프로세스에 전송&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;interface RemoteService {
+  boolean remoteMethod(int x, double y);
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[공룡책] 운영체제]]></title><description><![CDATA[…]]></description><link>https://Cha-Ji.github.io/O.S./1_os/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./1_os/</guid><pubDate>Fri, 01 Jul 2022 16:21:13 GMT</pubDate><content:encoded>&lt;h2 id=&quot;서론&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%84%9C%EB%A1%A0&quot; aria-label=&quot;서론 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;서론&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;서론에선 앞으로의 내용을 간단히 요약합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;이 후 작성하는 글은 &lt;strong&gt;운영체제&lt;/strong&gt;, &lt;strong&gt;프로세스&lt;/strong&gt;, &lt;strong&gt;스레드&lt;/strong&gt; 순서대로 간단히 이야기합니다.&lt;/p&gt;
+&lt;p&gt;운영체제를 공부하기 전 운영체제가 뭔지, 운영체제를 왜 사용할까 정리하고 시작합니다.&lt;/p&gt;
+&lt;h3 id=&quot;운영체제&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C&quot; aria-label=&quot;운영체제 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;운영체제&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;컴퓨터 하드웨어를 관리하는 소프트웨어&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;운영 체제는 컴퓨터 하드웨어가 컴퓨터 소프트웨어와 통신하고 작동하도록하는 소프트웨어 프로그램입니다.&lt;/p&gt;
+&lt;h4 id=&quot;목적&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A9%EC%A0%81&quot; aria-label=&quot;목적 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;목적&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;운영체제를 사용하는 목적에는 크게 세가지가 있습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;사용자에게 컴퓨터의 프로그램을 쉽고 효율적으로 실행할 수 있는 환경을 제공합니다.&lt;/li&gt;
+&lt;li&gt;컴퓨터 시스템 하드웨어 및 소프트웨어 자원을 여러 사용자 간에 효율적 할당, 관리, 보호합니다.&lt;/li&gt;
+&lt;li&gt;운영 체제는 제어 프로그램으로서 사용자 프로그램의 오류나 잘못된 자원 사용을 감시하는 것과 입출력 장치 등의 자원에 대한 연산과 제어를 관리합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
 &lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[Kotlin] LiveData -> Coroutine Flow]]></title><description><![CDATA[MVVM 패턴을 적용하다보면 View와 ViewModel의 관심사 분리를 위해 노력하곤 합니다. 그 중 이벤트 처리와 데이터를 다루는 객체로 LiveData를 사용했습니다. 기존에 사용하던 LiveData에서 Coroutine Flow…]]></description><link>https://Cha-Ji.github.io/Android/livedata_to_flow/</link><guid isPermaLink="false">https://Cha-Ji.github.io/Android/livedata_to_flow/</guid><pubDate>Sat, 06 Nov 2021 16:21:13 GMT</pubDate><content:encoded>&lt;p&gt;MVVM 패턴을 적용하다보면 View와 ViewModel의 관심사 분리를 위해 노력하곤 합니다.&lt;br&gt;
 그 중 이벤트 처리와 데이터를 다루는 객체로 LiveData를 사용했습니다.&lt;br&gt;
 기존에 사용하던 LiveData에서 Coroutine Flow로 마이그레이션하며 개념을 정리하려 합니다.&lt;/p&gt;
@@ -1429,450 +2095,7 @@ flag[1] = false&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&quot;https://haun25ne.tistory.com/58?category=718126&quot;&gt;11011.피터슨의 알고리즘 : 고전적인 해결법!&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://haun25ne.tistory.com/59&quot;&gt;11100. 피터슨 알고리즘 : 조건 3개에 맞는거야?&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://ko.wikipedia.org/wiki/%ED%94%BC%ED%84%B0%EC%8A%A8%EC%9D%98_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98&quot;&gt;피터슨의 알고리즘 - 위키백과, 우리 모두의 백과사전&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[[공룡책] 동기화 예제]]></title><description><![CDATA[Operating System…]]></description><link>https://Cha-Ji.github.io/O.S./6_sync_ex/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./6_sync_ex/</guid><pubDate>Mon, 06 Jul 2020 16:21:13 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;&quot;&gt;Operating System - 동기화&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;이전 글에서는 발생할 수 있는 문제에 대해 많이 언급했습니다.&lt;/p&gt;
-&lt;p&gt;또한 임계구역 문제, 경쟁조건이 없는 프로그램을 설계할 때 발생하는 문제, 교착상태, 라이브니스 위험 등을 언급했습니다.&lt;/p&gt;
-&lt;p&gt;이 글에서는 제시된 도구를 고전적인 동기화 문제에 적용합니다.&lt;/p&gt;
-&lt;h2 id=&quot;유한-버퍼-문제&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9C%A0%ED%95%9C-%EB%B2%84%ED%8D%BC-%EB%AC%B8%EC%A0%9C&quot; aria-label=&quot;유한 버퍼 문제 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;유한 버퍼 문제&lt;/h2&gt;
-&lt;p&gt;먼저 유한 버퍼 문제가 존재합니다.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;// n개의 버퍼로 구성된 pool이 존재하며 각 버퍼는 한 item을 저장
-val n: Int
-var mutext: Semaphore = 1 // 상호 배제 기능을 제공
-var empty: Semaphore = n  // 비어있는 버퍼 수
-var full: Semaphore = 0   // 사용중인 버퍼 수
-
-//================================================
-// 생산자
-while (true) {
-  // produce
-  wait(empty)
-    wait(mutext)
-
-    // next produce
-    signal(mutex)
-    signal(full)
-}
-
-//================================================
-// 소비자
-while (true) {
-    wait(full)
-    wait(mutex)
-    // remove item
-
-    signal(mutex)
-    signal(empty)
-    //consume
-}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3 id=&quot;readers-writers-문제&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#readers-writers-%EB%AC%B8%EC%A0%9C&quot; aria-label=&quot;readers writers 문제 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Readers-Writers 문제&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;병행 프로세스들이 한 DB를 공유한다면 배타적 접근 권한이 필요합니다.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ol&gt;
-&lt;li&gt;첫 번째 문제&lt;/li&gt;
-&lt;li&gt;공유 객체를 사용할 수 있는 허가를 얻지 못했다면, 다른 reader들이 끝날 때까지 기다리는 reader가 있으면 안된다.&lt;/li&gt;
-&lt;li&gt;→ writer의 starvation&lt;/li&gt;
-&lt;li&gt;두 번째 문제&lt;/li&gt;
-&lt;li&gt;writer가 접근중이라면, 새 reader들은 읽기를 시작할 수 없다.&lt;/li&gt;
-&lt;li&gt;→ reader의 starvation&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;reader-wirter-lock&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#reader-wirter-lock&quot; aria-label=&quot;reader wirter lock permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Reader-wirter lock&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;해당 문제는 두 가지모드를 지원하는 락을 둬서 해결합니다.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;읽기모드의 락, 쓰기모드의 락이 존재합니다.&lt;/li&gt;
-&lt;li&gt;reader 락은 여러 프로세스가 동시에 획득하는 것이 가능합니다.&lt;/li&gt;
-&lt;li&gt;writer 락은 하나의 프로세스만 획득할 수 있습니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;다음과 같은 상황에서 유용합니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;공유데이터를 읽기만하는 프로세스와 쓰기만하는 스레드를 식별하기 쉬운 응용&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wirter보다 reader의 개수가 많은 응용&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;reader-writer lock을 설정하는 오버헤드는 semaphore나 mutex를 설정할 때보다 큽니다.&lt;/li&gt;
-&lt;li&gt;reader들의 병행성을 높여 상쇄합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;식사하는-철학자&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8B%9D%EC%82%AC%ED%95%98%EB%8A%94-%EC%B2%A0%ED%95%99%EC%9E%90&quot; aria-label=&quot;식사하는 철학자 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;식사하는 철학자&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;이전 글에서 언급한 식사하는 철학자 문제의 해결안을 살펴봅니다.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;1. 일정 시간 생각을 한다.
-2. 왼쪽 포크가 사용 가능해질 때까지 대기한다. 만약 사용 가능하다면 집어든다.
-3. 오른쪽 포크가 사용 가능해질 때까지 대기한다. 만약 사용 가능하다면 집어든다.
-4. 양쪽의 포크를 잡으면 일정 시간만큼 식사를 한다.
-5. 오른쪽 포크를 내려놓는다.
-6. 왼쪽 포크를 내려놓는다.
-7. 다시 1번으로 돌아간다&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;두 포크를 모두 집을 수 있는지 판단한 뒤에 집습니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;임계구역 안에서만 포크를 집어야합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;비대칭 해결안을 활용합니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;예를 들어, 홀수번호는 왼쪽 포크부터 집고 짝수번호는 오른쪽 포크부터 집습니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;우선순위로 해결합니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;포크에 우선순위를 두고 양쪽 포크 중 우선순위가 높은 포크부터 집습니다.&lt;/li&gt;
-&lt;li&gt;한 명은 하나의 포크도 집을 수 없게 되고 한명이 식사를 마치면 두명씩 식사를 할 수 있습니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;시간제한으로 해결합니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;사용하지 않는 포크에 시간제한을 둡니다.&lt;/li&gt;
-&lt;li&gt;동시에 내려놓지 않는다고 가정하면 한 명이 포크를 내려놓는 순간 옆자리 한명이 식사를 시작하게 됩니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;해당 해결안들은 효율성이 고려되지 않았습니다.&lt;/p&gt;
-&lt;p&gt;데드락이 없는 해결안이 반드시 기아의 가능성도 제거하지는 않습니다.&lt;/p&gt;
-&lt;h2 id=&quot;모니터&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A8%EB%8B%88%ED%84%B0&quot; aria-label=&quot;모니터 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;모니터&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;앞서 언급한 식사하는 철학자의 해결안을 제시하며 모니터의 개념을 설명합니다.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;양쪽 포크를 모두 집을 수 있을 때에만 포크를 집을 수 있도록 강제합니다.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;enum class State {
-    THINKING,
-    HUNGRY,
-    EATING
-}
-
-class DiningPhilosophers : Monitor {
-
-    val state = mutableListOf&amp;lt;State&gt;()
-
-    // 원하는 포크를 집을 수 없을 때 집기를 미룰 수 있게 한다.    
-    val self = mutableListOf&amp;lt;Condition&gt;() 
-
-    init {
-        (0..5).forEach { i -&gt;
-            state.append(THINKING)
-        }
-    }
-
-    // 식사 전
-    fun pickUp(i: Int) {
-        state[i] = HUNGRY
-        eat(i)
-
-        if (state[i] != EATING) self[i].wait()    
-  }
-
-  // 식사 후
-    fun putDown(i: Int) {
-        state[i] = THINKING
-        eat(left(i))
-        eat(right(i))
-    }
-
-    private fun left(i: Int) = (i + 4) % 5
-
-    private fun right(i: Int) = (i + 1) % 5
-
-    fun eat(i: Int) {
-        if (canEat(i)) {
-                state[i] = EATING
-                self[i].signal()
-        }
-    }
-
-    private fun canEat(i: Int) = state[left(i)] != EATING &amp;amp;&amp;amp; 
-        state[i] == HUNGRY &amp;amp;&amp;amp; 
-        state[right(i)] != EATING
-}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;해당 코드는 공룡책 그림7.7의 코드를 kotlin으로 작성했으며, 가독성을 위해 코드를 세분화한 코드입니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;데드락을 해결한 코드이지만 기아 상태를 해결하진 못했습니다.&lt;/p&gt;
-&lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[공룡책] 동기화]]></title><description><![CDATA[논리 주소 공간을 공유하는 협력적 프로세스의 질서 있는 실행을 보장하며 이를 통해 데이터의 일관성을 유지하는 다양한 매커니즘을 논의합니다. 임계구역 Critical Section…]]></description><link>https://Cha-Ji.github.io/O.S./5_sync/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./5_sync/</guid><pubDate>Sun, 05 Jul 2020 16:21:13 GMT</pubDate><content:encoded>&lt;blockquote&gt;
-&lt;p&gt;논리 주소 공간을 공유하는 협력적 프로세스의 질서 있는 실행을 보장하며 이를 통해 데이터의 일관성을 유지하는 다양한 매커니즘을 논의합니다.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;임계구역&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9E%84%EA%B3%84%EA%B5%AC%EC%97%AD&quot; aria-label=&quot;임계구역 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;임계구역&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Critical Section&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;각 프로세스는 임계구역이라고 부르는 코드 부분을 포함하고 있고,&lt;br&gt;
-그 안에서는 하나 이상의 다른 프로세스와 공유하는 데이터에 접근하고 갱신할 수 있습니다.&lt;/p&gt;
-&lt;p&gt;임계구역 문제는 상호배제, 진행, 한정된 대기 세 가지 요구사항을 충족해야 합니다.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Mutual Exclusion&lt;/li&gt;
-&lt;li&gt;프로세스가 Critical Section에서 실행중이라면, 다른 프로세스들은 그들이 가진 Critical Section에서 실행될 수 없습니다.&lt;/li&gt;
-&lt;li&gt;Progress&lt;/li&gt;
-&lt;li&gt;Ciritical Section에서 실행중인 프로세스가 없고 별도의 동작이 없는 프로세스들만 Critical Section 진입 후보로서 참여될 수 있습니다.&lt;/li&gt;
-&lt;li&gt;Bounded Waiting&lt;/li&gt;
-&lt;li&gt;프로세스가 Critical Section에 진입 신청 후부터 받아들여질 때까지 다른 프로세스들이 Critical Section에 진입하는 횟수는 제한이 있어야 합니다.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;상호 배제를 통해 한 번에 하나의 프로세스만 임계구역에서 활성화됩니다.&lt;br&gt;
-진행을 통해 임계구역에 어떤 프로세스가 들어갈지 협력적으로 결정합니다.&lt;br&gt;
-한정된 대기를 통해 프로그램이 자신의 임계구역에 들어가기 전 대기시간을 제한합니다.&lt;/p&gt;
-&lt;p&gt;해당 임계구역 문제의 해결책으로 Mutex Lock, Semaphores를 활용할 수 있습니다.&lt;/p&gt;
-&lt;h3 id=&quot;mutex-semaphore&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#mutex-semaphore&quot; aria-label=&quot;mutex semaphore permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Mutex, Semaphore&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Mutex는 한 스레드나 프로세스에 의해 소유될 수 있는 key를 기반으로 상호를 배제합니다.&lt;/li&gt;
-&lt;li&gt;누군가가 key를 갖고 있다면 다른이는 key를 사용할 수 없고 대기합니다.&lt;/li&gt;
-&lt;li&gt;반납을 해야지만 다시 key를 사용할 수 있습니다.&lt;/li&gt;
-&lt;li&gt;Semaphore는 현재 공유자원에 접근할 수 있는 스레드와 프로세스의 수를 변수로 두어 상호를 배제합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;화장실로 비유할 수 있습니다.&lt;/p&gt;
-&lt;p&gt;뮤텍스는 화장실이 하나 뿐인 식당과 비슷합니다.&lt;br&gt;
-앞서 입장한 손님이 키를 소유하고, 화장실에서 나올 때 키를 반납합니다.&lt;br&gt;
-뒤이어 입장하는 손님들은 키가 반납될 때까지 카운터에서 대기합니다.&lt;br&gt;
-이로써 화장실에 동시에 여러명이 존재하는 상황을 막습니다.&lt;/p&gt;
-&lt;p&gt;세마포어는 화장실의 칸이 여러개인 식당과 비슷합니다.&lt;br&gt;
-앞서 입장한 손님들이 화장실 칸에 들어갈 때 전광판에 남은 칸의 개수를 비춥니다.&lt;br&gt;
-손님들이 퇴장하면 전광판의 숫자가 오르며&lt;br&gt;
-전광판에 숫자 0이 표시되면 손님들은 대기합니다.&lt;/p&gt;
-&lt;h4 id=&quot;카운팅--이진-세마포&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%B9%B4%EC%9A%B4%ED%8C%85--%EC%9D%B4%EC%A7%84-%EC%84%B8%EB%A7%88%ED%8F%AC&quot; aria-label=&quot;카운팅  이진 세마포 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;카운팅 / 이진 세마포&lt;/h4&gt;
-&lt;p&gt;카운팅 세마포는 가용한 개수를 가진 자원에 대해 접근 제어용으로 사용되며, 세마포는 그 가용한 자원의 개수로 초기화됩니다.&lt;br&gt;
-자원을 사용하면 세마포가 감소, 방출하면 세마포가 증가합니다.&lt;/p&gt;
-&lt;p&gt;이진 세마포는 Mutex라고도 부르며 Mutual Exclusion의 준말입니다.&lt;br&gt;
-0과 1 사이 값만 가능하며 다중 프로세스 간 Critical Section 문제를 해결하기 위해 사용합니다.&lt;/p&gt;
-&lt;p&gt;위 뮤텍스와 세마포 방법은 말로만 들으면 만능 기법이지만 당연히 단점이 존재합니다.&lt;/p&gt;
-&lt;h3 id=&quot;바쁜-대기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B0%94%EC%81%9C-%EB%8C%80%EA%B8%B0&quot; aria-label=&quot;바쁜 대기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;바쁜 대기&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Busy Waiting&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Critical Section에 진입해야하는 프로세스는 진입 코드를 계속 반복 실행해야하며 CPU 시간을 낭비했습니다.&lt;br&gt;
-진입을 실패한 프로세스를 block시킨 뒤 자리가 날 때 다시 깨우는 방식으로 해당 Busy Waiting을 해결합니다.&lt;/p&gt;
-&lt;h3 id=&quot;모니터&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A8%EB%8B%88%ED%84%B0&quot; aria-label=&quot;모니터 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;모니터&lt;/h3&gt;
-&lt;p&gt;고급 언어의 설계 구조물로써 개발자의 코드를 상호배제 하게끔 만든 추상화된 데이터 형태입니다.&lt;br&gt;
-공유자원에 접근하기 위한 키 획득과 자원 사용 후 해제를 모두 처리합니다.&lt;/p&gt;
-&lt;p&gt;mutext가 보장되며 접근중인 스레드가 wait 상태일 때 새 스레드가 접근할 수 있게 됩니다.&lt;br&gt;
-새 스레드는 대기중인 스레드에게 notify할 수 있고 깨어난 스레드는 critical section에 진입할 수 있게 됩니다.&lt;/p&gt;
-&lt;p&gt;자바에서 싱글톤 패턴을 구현할 때 인스턴스의 생성 여부를 확인하기 위해 synchronized 키워드를 사용하곤 합니다.&lt;/p&gt;
-&lt;h3 id=&quot;데드락-철학자의-만찬&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8D%B0%EB%93%9C%EB%9D%BD-%EC%B2%A0%ED%95%99%EC%9E%90%EC%9D%98-%EB%A7%8C%EC%B0%AC&quot; aria-label=&quot;데드락 철학자의 만찬 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;데드락: 철학자의 만찬&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;일정 시간 생각을 한다.&lt;/li&gt;
-&lt;li&gt;왼쪽 포크가 사용 가능해질 때까지 대기한다. 만약 사용 가능하다면 집어든다.&lt;/li&gt;
-&lt;li&gt;오른쪽 포크가 사용 가능해질 때까지 대기한다. 만약 사용 가능하다면 집어든다.&lt;/li&gt;
-&lt;li&gt;양쪽의 포크를 잡으면 일정 시간만큼 식사를 한다.&lt;/li&gt;
-&lt;li&gt;오른쪽 포크를 내려놓는다.&lt;/li&gt;
-&lt;li&gt;왼쪽 포크를 내려놓는다.&lt;/li&gt;
-&lt;li&gt;다시 1번으로 돌아간다&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;데드락은 교착상태를 뜻합니다.&lt;/p&gt;
-&lt;p&gt;둘 이상의 프로세스가 Critical Section의 진입을 무한정 기다리고 있는 현상입니다.&lt;/p&gt;
-&lt;p&gt;만약 프로세스A가 자원1을 사용하는데 자원 2가 필요합니다.&lt;/p&gt;
-&lt;p&gt;동시에 프로세스B가 자원2를 사용하는데 자원 1이 필요합니다.&lt;/p&gt;
-&lt;p&gt;서로를 무한정 기다리며 교착상태에 빠지게 됩니다.&lt;/p&gt;
-&lt;p&gt;공유 자원에서 상호를 배제하다보면 발생할 수 있는 문제입니다.&lt;/p&gt;
-&lt;h3 id=&quot;발생-조건&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B0%9C%EC%83%9D-%EC%A1%B0%EA%B1%B4&quot; aria-label=&quot;발생 조건 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;발생 조건&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Mutual Exclusion: 상호를 배제한 상태 (포크는 동시에 한 철학자만 사용할 수 있다.)&lt;/li&gt;
-&lt;li&gt;Hold and Wait: 최소 하나의 자원을 점유하면서 다른 자원까지 탐내는 상태 (포크를 하나 갖고 있지만 다른 포크도 기다린다.)&lt;/li&gt;
-&lt;li&gt;No preemption: 이미 할당된 자원을 빼앗을 수 없는 상태 (사용중인 포크를 빼앗을 수 없다.)&lt;/li&gt;
-&lt;li&gt;Circular wait: 순환 형태로 자원을 대기하는 상태 (모든 철학자가 포크를 기다린다.)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;대처&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8C%80%EC%B2%98&quot; aria-label=&quot;대처 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;대처&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;예방&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;상호배제 부정: 여러 프로세스가 자원을 공유한다.&lt;/li&gt;
-&lt;li&gt;점유대기 부정: 프로세스 실행 전 모든 자원을 할당한다.&lt;/li&gt;
-&lt;li&gt;비선점 부정: 점유중인 자원을 요구하면 반납&lt;/li&gt;
-&lt;li&gt;순환대기 부정: 자원에 고유번호 할당 후 순서대로 자원 요구&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;회피&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;은행원 알고리즘&lt;br&gt;
-프로세스가 자원을 요구할 때 시스템은 자원을 할당한 후에도 안정 상태로 남아있게 되는지 사전에 검사&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;탐지&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;자원 요청 시 탐지&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;회복&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;교착상태를 일으킨 프로세스를 종료하거나 자원을 해제&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://worthpreading.tistory.com/90&quot;&gt;https://worthpreading.tistory.com/90&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/JaeYeopHan/Interview_Question_for_Beginner/tree/master/OS#cpu-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%9F%AC&quot;&gt;면접질문&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://m.blog.naver.com/PostView.naver?blogId=hirit808&amp;#x26;logNo=221793966623&amp;#x26;targetKeyword=&amp;#x26;targetRecommendationCode=1&quot;&gt;모니터&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[공룡책] CPU 스케줄링]]></title><description><![CDATA[운영체제는 CPU를 프로세스 간 교환함으로써 보다 생산적으로 동작합니다. 코어가 하나인 시스템에선 한순간에 오직 하나의 프로세스만이 실행될 수 있습니다. 나머지 프로세스는 CPU…]]></description><link>https://Cha-Ji.github.io/O.S./4_scheduling/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./4_scheduling/</guid><pubDate>Sat, 04 Jul 2020 16:21:13 GMT</pubDate><content:encoded>&lt;p&gt;운영체제는 CPU를 프로세스 간 교환함으로써 보다 생산적으로 동작합니다.&lt;/p&gt;
-&lt;p&gt;코어가 하나인 시스템에선 한순간에 오직 하나의 프로세스만이 실행될 수 있습니다.&lt;/p&gt;
-&lt;p&gt;나머지 프로세스는 CPU의 코어가 가용 상태가 되어야 실행시킬 수 있으며&lt;/p&gt;
-&lt;p&gt;다중 프로그래밍의 목적은 CPU 이용률을 최대화하기 위해 항상 실행중인 프로세스를 가지게 하는 데 있습니다.&lt;/p&gt;
-&lt;p&gt;이 때 프로세스 또는 스레드 바쁘게 사용하기 위한 스케줄링에 대해 알아보겠습니다.&lt;/p&gt;
-&lt;h2 id=&quot;스케줄링&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81&quot; aria-label=&quot;스케줄링 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스케줄링&lt;/h2&gt;
-&lt;hr&gt;
-&lt;p&gt;그냥 선착순으로 실행하고 끝내면 공평할텐데 왜 스케줄링 알고리즘이 필요할까요?&lt;/p&gt;
-&lt;p&gt;은행에 사람이 7명 줄을 섭니다.&lt;/p&gt;
-&lt;p&gt;맨 앞사람은 3시간짜리 업무를 보러 왔습니다. 그 뒤에 6사람은 모두 5분이 걸립니다.&lt;/p&gt;
-&lt;p&gt;6사람은 다들 3시간 이상의 대기시간을 갖습니다. 총 대기시간은 20시간 정도 되네요.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;사람”&lt;/th&gt;
-&lt;th&gt;걸리는 시간”&lt;/th&gt;
-&lt;th&gt;대기 시간”&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;가&lt;/td&gt;
-&lt;td&gt;3시간&lt;/td&gt;
-&lt;td&gt;0분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;나&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;3시간&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;다&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;3시간 5분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;라&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;3시간 10분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;마&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;3시간 15분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;바&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;3시간 20분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;사&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;3시간 25분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;물론 먼저온 사람이 먼저 업무를 보는것이 공평하지만&lt;/p&gt;
-&lt;p&gt;프로세스에게 공평함이 필요할까요? 총 대기시간만 적으면 될 것 같은데..&lt;/p&gt;
-&lt;p&gt;오래 걸리는 사람이 제일 늦게 업무를 본다면 어떨까요? 대기시간은 2시간조차 되지 않네요.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;사람”&lt;/th&gt;
-&lt;th&gt;걸리는 시간”&lt;/th&gt;
-&lt;th&gt;대기 시간”&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;나&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;0분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;다&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;라&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;10분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;마&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;15분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;바&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;20분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;사&lt;/td&gt;
-&lt;td&gt;5분&lt;/td&gt;
-&lt;td&gt;25분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;가&lt;/td&gt;
-&lt;td&gt;3시간&lt;/td&gt;
-&lt;td&gt;30분&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;이처럼, 큰 프로그램이 메모리를 점거해 전체적인 성능 저하를 불러일으키는 것 때문에&lt;br&gt;
-스케줄링 알고리즘이 필요합니다.&lt;/p&gt;
-&lt;p&gt;스케줄링에는 크게 선점 스케줄링과 비선점 스케줄링이 있습니다.&lt;/p&gt;
-&lt;p&gt;선점 스케줄링은 스케줄링이 발생할 때 기존 실행중인 프로세스를 선점하는 기법입니다.&lt;/p&gt;
-&lt;p&gt;데드락을 방지할 필요가 있는 기법입니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;new process → runnint&lt;/li&gt;
-&lt;li&gt;running process → waiting&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;비선점 스케줄링은 context switching 전에 실행이 완료되고 프로세스가 봉쇄되기를 기다립니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;running process ~~~ running&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;스케줄링-기법&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81-%EA%B8%B0%EB%B2%95&quot; aria-label=&quot;스케줄링 기법 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스케줄링 기법&lt;/h2&gt;
-&lt;h3 id=&quot;선입선처리-스케줄링fcfs&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%84%A0%EC%9E%85%EC%84%A0%EC%B2%98%EB%A6%AC-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81fcfs&quot; aria-label=&quot;선입선처리 스케줄링fcfs permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;선입선처리 스케줄링(FCFS)&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;First-Come First-Served&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;비선점형 기법입니다.&lt;/p&gt;
-&lt;p&gt;먼저 실행된 프로세스부터 처리하며 CPU 버스트가 완료될 때까지 CPU를 반환하지 않습니다.&lt;/p&gt;
-&lt;p&gt;단점으로는 긴 프로세스가 CPU를 양도하길 기다리는 호위 효과가 발생합니다.&lt;/p&gt;
-&lt;h3 id=&quot;최단작업우선-스케줄링sjf&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%B5%9C%EB%8B%A8%EC%9E%91%EC%97%85%EC%9A%B0%EC%84%A0-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81sjf&quot; aria-label=&quot;최단작업우선 스케줄링sjf permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;최단작업우선 스케줄링(SJF)&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Shortest-Job-First&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;평균 대기시간이 최소인 스케줄링 기법입니다.&lt;/p&gt;
-&lt;p&gt;이상적이지만 문제점이 있습니다. 실제로 실행되지도 않은 CPU 버스트의 길이를 예언하는건 불가능합니다.&lt;/p&gt;
-&lt;p&gt;때문에 이전 버스트의 길이와 비슷하다고 기대하고 예측하여 사용합니다.&lt;/p&gt;
-&lt;p&gt;단점으로는 긴 프로세스는 평생 실행시킬 수 없는 효과가 발생합니다.&lt;/p&gt;
-&lt;h3 id=&quot;라운드-로빈-스케줄링rr&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A1%9C%EB%B9%88-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81rr&quot; aria-label=&quot;라운드 로빈 스케줄링rr permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;라운드 로빈 스케줄링(RR)&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Round-Robin&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;FCFS에서 선점이 추가된 방식입니다.&lt;/p&gt;
-&lt;p&gt;각 프로세스는 동일한 크기의 할당 시간을 갖게됩니다.&lt;/p&gt;
-&lt;p&gt;할당시간이 끝나면 선점당하며 준비 큐의 맨 뒤로 가게됩니다.&lt;/p&gt;
-&lt;p&gt;할당 시간이 너무 크면 FCFS와 같아져서 문제가 되지만 문맥 교환 시간에 비해서는 커야합니다.&lt;/p&gt;
-&lt;h3 id=&quot;우선순위-스케줄링&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9A%B0%EC%84%A0%EC%88%9C%EC%9C%84-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81&quot; aria-label=&quot;우선순위 스케줄링 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;우선순위 스케줄링&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Priority&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;우선순위가 가장 높은 프로세스에게 CPU를 할당하는 스케줄링입니다.&lt;/p&gt;
-&lt;p&gt;선점과 비선점 모두 가능합니다.&lt;/p&gt;
-&lt;p&gt;선점형에서는 더 높은 우선순위의 프로세스가 도착하면 선점하며,&lt;/p&gt;
-&lt;p&gt;비선점형에서는 준비 큐의 head에 넣게 됩니다.&lt;/p&gt;
-&lt;p&gt;단점으로는 실행준비는 되어있지만 CPU를 사용할 수 없는 프로세스를 CPU가 무한히 대기하는 상태가 존재합니다.&lt;/p&gt;
-&lt;p&gt;하지만 해결책으로 대기시간에 따라 우선순위를 보정하는 aging이 존재합니다.&lt;/p&gt;
-&lt;h2 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h2&gt;
-&lt;hr&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/JaeYeopHan/Interview_Question_for_Beginner/tree/master/OS#cpu-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%9F%AC&quot;&gt;github JaeYeopHan&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[OS] 다단계 큐와 다단계 피드백 큐]]></title><description><![CDATA[Multilevel Queue 여러개의 큐에 여러 스케줄링을 적용하는 기법 다단계 큐를 이해하기 앞서 다른 스케줄링 기법을 알 필요가 있습니다. 여기서 언급하는 기법은 FCFS, RR, Priority 세 기법입니다. 작업이 분류되고, Ready…]]></description><link>https://Cha-Ji.github.io/O.S./queue/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./queue/</guid><pubDate>Sat, 04 Jul 2020 16:21:13 GMT</pubDate><content:encoded>&lt;h3 id=&quot;multilevel-queue&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#multilevel-queue&quot; aria-label=&quot;multilevel queue permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Multilevel Queue&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://ko.wikipedia.org/wiki/%ED%94%BC%ED%84%B0%EC%8A%A8%EC%9D%98_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98&quot;&gt;피터슨의 알고리즘 - 위키백과, 우리 모두의 백과사전&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[[OS] 다단계 큐와 다단계 피드백 큐]]></title><description><![CDATA[Multilevel Queue 여러개의 큐에 여러 스케줄링을 적용하는 기법 다단계 큐를 이해하기 앞서 다른 스케줄링 기법을 알 필요가 있습니다. 여기서 언급하는 기법은 FCFS, RR, Priority 세 기법입니다. 작업이 분류되고, Ready…]]></description><link>https://Cha-Ji.github.io/O.S./queue/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./queue/</guid><pubDate>Sat, 04 Jul 2020 16:21:13 GMT</pubDate><content:encoded>&lt;h3 id=&quot;multilevel-queue&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#multilevel-queue&quot; aria-label=&quot;multilevel queue permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Multilevel Queue&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;여러개의 큐에 여러 스케줄링을 적용하는 기법&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1908,219 +2131,7 @@ class DiningPhilosophers : Monitor {
 &lt;p&gt;flexible하기 때문에 높은 우선순위 큐로 프로세스를 이동하기 수월합니다.&lt;/p&gt;
 &lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&quot;https://jhnyang.tistory.com/28&quot;&gt;[운영체제]Multilevel Queue 다단계큐, 멀티레벨큐&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://jhnyang.tistory.com/156&quot;&gt;https://jhnyang.tistory.com/156&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[[공룡책] 스레드]]></title><description><![CDATA[앞서 작성한 운영체제, 프로세스에 이어 스레드에 대해 간단히 이야기합니다. 스레드 CPU 이용의 기본 단위입니다. 스레드 ID, PC, 레지스터 집합, 스택으로 구성됩니다. 프로세스 vs…]]></description><link>https://Cha-Ji.github.io/O.S./3_thread/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./3_thread/</guid><pubDate>Fri, 03 Jul 2020 16:21:13 GMT</pubDate><content:encoded>&lt;blockquote&gt;
-&lt;p&gt;앞서 작성한 운영체제, 프로세스에 이어 스레드에 대해 간단히 이야기합니다.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;스레드&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%EB%A0%88%EB%93%9C&quot; aria-label=&quot;스레드 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스레드&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;CPU 이용의 기본 단위입니다.&lt;/li&gt;
-&lt;li&gt;스레드 ID, PC, 레지스터 집합, 스택으로 구성됩니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;프로세스-vs-스레드&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-vs-%EC%8A%A4%EB%A0%88%EB%93%9C&quot; aria-label=&quot;프로세스 vs 스레드 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로세스 vs 스레드&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;프로세스는 실행중인 프로그램의 인스턴스이며, 스레드는 실행되는 흐름의 단위입니다.&lt;br&gt;
-한 프로그램에서 둘 이상의 프로세스를 생성한다면 빈번한 context switching으로 성능 저하가 생깁니다.&lt;br&gt;
-그래서 스레드가 탄생했으며 스레드는 한 프로그램에서의 여러 실행흐름입니다.&lt;br&gt;
-스레드는 여러 영역을 공유하지만 스택은 독립적으로 소유합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;스레드의-공유영역&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%EB%A0%88%EB%93%9C%EC%9D%98-%EA%B3%B5%EC%9C%A0%EC%98%81%EC%97%AD&quot; aria-label=&quot;스레드의 공유영역 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스레드의 공유영역&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Stack(공유되지 않음)&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;스택은 함수 호출 시 전달되는 parameter, return address가 저장됩니다. 각 스레드는 독립적으로 함수 호출이 가능하다는 이야기가 됩니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;PC Register(공유되지 않음)&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;프로그램 카운터는 명령이 수행할 지점을 가리킵니다. 스레드는 결국 스케줄러에게 다시 선점당하기 때문에 명령어가 어디까지 수행됐는지 기억해야 합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Code&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Code영역이 공유돼야 자신이 포함된 프로세스의 함수를 호출할 수 있습니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Data &amp;#x26; Heap&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;전역변수와 메모리 공간을 공유합니다. 힙 영역이 공유되면 스레드 간 통신을 할 수 있게 됩니다.&lt;/li&gt;
-&lt;li&gt;IPC 없이도 통신이 가능합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;다중스레드&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8B%A4%EC%A4%91%EC%8A%A4%EB%A0%88%EB%93%9C&quot; aria-label=&quot;다중스레드 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;다중스레드&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;다중 스레드의 장점은 Responsiveness, Resource sharing, Economy, Scalability 네가지 부류로 나눌 수 있습니다.&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;응답성(responsiveness)&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;프로그램의 일부가 봉쇄되거나 긴 작업을 수행하더라도 프로그램 수행이 계속됩니다.&lt;/li&gt;
-&lt;li&gt;UI를 설계할 때 특히 유용합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;자원 공유(resource sharing)&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;프로세스는 공유메모리, 메시지 전달 기법을 통해야만 자원을 공유할 수 있습니다.&lt;/li&gt;
-&lt;li&gt;스레든느 자동으로 그들이 속한 프로세스의 자원과 메모리를 공유합니다.&lt;/li&gt;
-&lt;li&gt;코드와 데이터 공유의 이점은 한 응용 프로그램이 같은 주소 공간 내 여러 다른 작업을 하는 스레드를 가질 수 있다는 점입니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;경제성(economy)&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;프로세스 생성보다 스레드 생성이 경제적입니다. 또한 context switching 역시 스레드 사이에서 더 빠릅니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;규모 적응성(scalability)&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;다중 처리기 구조에서 각각의 스레드가 병렬수행됩니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;java-thread&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#java-thread&quot; aria-label=&quot;java thread permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Java Thread&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;Thread 클래스에서 파생된 새 클래스를 만들고 run() 메소드를 재정의해 스레드를 명시적으로 생성합니다.&lt;/li&gt;
-&lt;li&gt;Runnable 인터페이스의 구현체를 정의해 스레드를 명시적으로 생성합니다.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;스레드-풀&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%EB%A0%88%EB%93%9C-%ED%92%80&quot; aria-label=&quot;스레드 풀 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스레드 풀&lt;/h3&gt;
-&lt;p&gt;다중 스레드 서버는 아직 여러 문제를 갖고 있습니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;서비스할 때마다 스레드를 생성하는 데 소요되는 시간입니다.&lt;/li&gt;
-&lt;li&gt;최대 스레드 수를 정해야 합니다. 스레드가 무한하다면 CPU 시간, 메모리 공간 등의 시스템 자원이 고갈됩니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;이에 대한 대안이 스레드 풀입니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;프로세스를 시작할 때 일정한 수의 스레드들을 미리 풀로 만들어둡니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[공룡책] 프로세스]]></title><description><![CDATA[…]]></description><link>https://Cha-Ji.github.io/O.S./2_process/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./2_process/</guid><pubDate>Thu, 02 Jul 2020 16:21:13 GMT</pubDate><content:encoded>&lt;blockquote&gt;
-&lt;p&gt;앞서 작성한 운영체제에 이어서 프로세스에 대해 간단히 이야기합니다.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;프로세스&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4&quot; aria-label=&quot;프로세스 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로세스&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;초기 컴퓨터 시스템은 한 번에 하나의 프로그램만을 실행시켰습니다.&lt;br&gt;
-반면 오늘날의 컴퓨터 시스템들은 메모리에 다수의 프로그램이 적재되어 병행 실행되는 것을 허용합니다.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;프로세스란 실행중인 프로그램을 말합니다. 프로세스가 무엇이고 어떻게 표현되며 어떻게 동작하는지 알아보겠습니다.&lt;/p&gt;
-&lt;h3 id=&quot;프로세스의-특징&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4%EC%9D%98-%ED%8A%B9%EC%A7%95&quot; aria-label=&quot;프로세스의 특징 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로세스의 특징&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;병렬 실행이 가능합니다.&lt;/li&gt;
-&lt;li&gt;독립된 메모리 영역과 주소 공간을 운영체제로부터 할당받습니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;프로세스-메모리-배치&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EB%B0%B0%EC%B9%98&quot; aria-label=&quot;프로세스 메모리 배치 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로세스 메모리 배치&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Code 영역, Data 영역, Heap 영역, Stack 영역이 존재합니다.&lt;/li&gt;
-&lt;li&gt;Code 영역, Data 영역은 Run time 동안 고정된 크기를 갖습니다. 하지만 Stack 영역과 Heap 영역은 동적으로 크기가 조정되며 서로의 방향으로 확장됩니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;pcb&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#pcb&quot; aria-label=&quot;pcb permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;PCB&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;PCB는 프로세스 제어 블록을 의미합니다.&lt;/li&gt;
-&lt;li&gt;프로세스 상태, 프로세스 번호, Program Counter, Register, 메모리 제한, 오픈 파일 리스트를 포함합니다.&lt;/li&gt;
-&lt;li&gt;프로세스 상태는 new, ready, running, waiting, halted가 존재합니다.&lt;/li&gt;
-&lt;li&gt;Program Counter는 다음에 실행할 명령어의 주소를 가리킵니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;context-switching&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#context-switching&quot; aria-label=&quot;context switching permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Context Switching&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;인터럽트가 발생할 때 현재 진행하고 있는 Task의 상태를 저장하고 다음 진행할 Task의 상태 값을 읽어 적용하는 과정입니다.&lt;/li&gt;
-&lt;li&gt;커널은 앞서 언급한 PCB에 문맥을 저장하고, 새 프로세스의 저장된 context를 복구합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;android-process-hierarchy&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#android-process-hierarchy&quot; aria-label=&quot;android process hierarchy permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Android Process Hierarchy&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;제한된 시스템 자원을 회수하기 위해 기존 프로세스를 종료해야 할 수도 있습니다.&lt;/li&gt;
-&lt;li&gt;중요도 계층을 식별합니다.&lt;/li&gt;
-&lt;li&gt;forground process -&gt; visible process -&gt; service process -&gt; background process -&gt; empty process&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;ipc&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#ipc&quot; aria-label=&quot;ipc permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;IPC&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;InterProcess Communication의 준말로 프로세스 간 통신을 의미합니다.&lt;/li&gt;
-&lt;li&gt;information sharing, computation speedup, modularity&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;IPC에는 shared memory, message passing 두 모델이 존재합니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;shared memory model&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;협력 프로세스들에 의해 공유되는 메모리의 영역이 구축됩니다.&lt;/li&gt;
-&lt;li&gt;공유 메모리 영역을 구축할 때만 시스템 콜이 필요합니다.&lt;/li&gt;
-&lt;li&gt;모든 접근이 일반적인 메모리 접근으로 취급되기 때문에 커널의 도움이 필요 없습니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;message passing model&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;협력 프로세스들 사이에 교환되는 메시지를 통해 통신이 이루어집니다.&lt;/li&gt;
-&lt;li&gt;충돌을 회피할 필요가 없기 때문에 적은 양의 데이터를 교환하기 적합합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;많은 시스템들이 두 모델을 모두 구현합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;socket&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#socket&quot; aria-label=&quot;socket permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;socket&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;socket은 통신의 endpoint를 뜻합니다. ip주소와 포트번호를 접합하여 구별합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;rpc&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#rpc&quot; aria-label=&quot;rpc permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;RPC&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Remote Procedure Calls의 준말입니다. 또한 IPC 기반 위에 만들어집니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;anroid-rpc&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#anroid-rpc&quot; aria-label=&quot;anroid rpc permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Anroid RPC&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;RPC는 동일 시스템에서 실행되는 프로세스 간 IPC의 형태로 사용될 수도 있습니다.&lt;/li&gt;
-&lt;li&gt;Android OS는 바인더 프레임워크에 포함된 풍부한 IPC 기법의 집합을 갖는데, 이 중 RPC는 프로세스가 다른 프로세스의 서비스를 요청할 수 있게 합니다.&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;이러한 응용 프로그램의 구성요소 중 하나는 서비스가 있습니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;클라이언트 앱이 bindService()를 호출하면 해당 서비스가 bound 되어 메시지 전달 또는 RPC를 사용해 통신을 제공합니다.&lt;/li&gt;
-&lt;li&gt;Messenger 서비스는 단방향 통신만 가능합니다. 서비스와 클라이언트 모두 Messanger 서비스를 제공해야 서로 통신이 가능합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;onBind() 메소드는 상호작용을 위해 원격 오브젝트 안에 메소드를 정의하는 인터페이스를 반환해야 합니다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;일반 java 구문으로 작성되며 (Android Interface Definition Language)를 사용해 스텁 파일을 생성합니다. 또한 (RemoteService.aidl)로 저장됩니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;bindService() -&gt; onBind() -&gt; RemoteService 객체의 스텁이 클라이언트에 반환 -&gt; remoteMethod()&lt;/li&gt;
-&lt;li&gt;매개변수 정돈을 처리 -&gt; 프로세스 사이에 정돈된 매개변수를 전송 -&gt; 필요한 서비스 구현을 호출 -&gt; 반환값을 클라이언트 프로세스에 전송&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;interface RemoteService {
-  boolean remoteMethod(int x, double y);
-}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[공룡책] 운영체제]]></title><description><![CDATA[…]]></description><link>https://Cha-Ji.github.io/O.S./1_os/</link><guid isPermaLink="false">https://Cha-Ji.github.io/O.S./1_os/</guid><pubDate>Wed, 01 Jul 2020 16:21:13 GMT</pubDate><content:encoded>&lt;h2 id=&quot;서론&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%84%9C%EB%A1%A0&quot; aria-label=&quot;서론 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;서론&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;서론에선 앞으로의 내용을 간단히 요약합니다.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;이 후 작성하는 글은 &lt;strong&gt;운영체제&lt;/strong&gt;, &lt;strong&gt;프로세스&lt;/strong&gt;, &lt;strong&gt;스레드&lt;/strong&gt; 순서대로 간단히 이야기합니다.&lt;/p&gt;
-&lt;p&gt;운영체제를 공부하기 전 운영체제가 뭔지, 운영체제를 왜 사용할까 정리하고 시작합니다.&lt;/p&gt;
-&lt;h3 id=&quot;운영체제&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C&quot; aria-label=&quot;운영체제 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;운영체제&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;컴퓨터 하드웨어를 관리하는 소프트웨어&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;운영 체제는 컴퓨터 하드웨어가 컴퓨터 소프트웨어와 통신하고 작동하도록하는 소프트웨어 프로그램입니다.&lt;/p&gt;
-&lt;h4 id=&quot;목적&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A9%EC%A0%81&quot; aria-label=&quot;목적 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;목적&lt;/h4&gt;
-&lt;blockquote&gt;
-&lt;p&gt;운영체제를 사용하는 목적에는 크게 세가지가 있습니다.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;사용자에게 컴퓨터의 프로그램을 쉽고 효율적으로 실행할 수 있는 환경을 제공합니다.&lt;/li&gt;
-&lt;li&gt;컴퓨터 시스템 하드웨어 및 소프트웨어 자원을 여러 사용자 간에 효율적 할당, 관리, 보호합니다.&lt;/li&gt;
-&lt;li&gt;운영 체제는 제어 프로그램으로서 사용자 프로그램의 오류나 잘못된 자원 사용을 감시하는 것과 입출력 장치 등의 자원에 대한 연산과 제어를 관리합니다.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;references&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#references&quot; aria-label=&quot;references permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;References&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[about]]></title><description><![CDATA[Your name Thank you for reading my resume. If you want to contact me, Please send me an email.]]></description><link>https://Cha-Ji.github.io/resume-en/</link><guid isPermaLink="false">https://Cha-Ji.github.io/resume-en/</guid><pubDate>Sun, 27 Jan 2019 16:21:13 GMT</pubDate><content:encoded>&lt;h1 id=&quot;your-name&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#your-name&quot; aria-label=&quot;your name permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Your name&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;https://jhnyang.tistory.com/156&quot;&gt;https://jhnyang.tistory.com/156&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[about]]></title><description><![CDATA[Your name Thank you for reading my resume. If you want to contact me, Please send me an email.]]></description><link>https://Cha-Ji.github.io/resume-en/</link><guid isPermaLink="false">https://Cha-Ji.github.io/resume-en/</guid><pubDate>Sun, 27 Jan 2019 16:21:13 GMT</pubDate><content:encoded>&lt;h1 id=&quot;your-name&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#your-name&quot; aria-label=&quot;your name permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Your name&lt;/h1&gt;
 &lt;div align=&quot;center&quot;&gt;
 &lt;p&gt;&lt;em&gt;Thank you for reading my resume. If you want to contact me, Please send me an email.&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;</content:encoded></item><item><title><![CDATA[[Android] Data Binding]]></title><description><![CDATA[데이터 바인딩 이전에 포스팅했던 View binding과 같이 뷰 속성을 참조하는 방식 중 하나입니다. View binding보다 성능은 떨어질 수 있습니다. 사용 전 build.gradle에서 android 블록에  를 추가해야 합니다. plugin…]]></description><link>https://Cha-Ji.github.io/Android/data_binding/</link><guid isPermaLink="false">https://Cha-Ji.github.io/Android/data_binding/</guid><pubDate>Mon, 03 Jul 2000 16:21:13 GMT</pubDate><content:encoded>&lt;h1 id=&quot;데이터-바인딩&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%B0%94%EC%9D%B8%EB%94%A9&quot; aria-label=&quot;데이터 바인딩 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;데이터 바인딩&lt;/h1&gt;

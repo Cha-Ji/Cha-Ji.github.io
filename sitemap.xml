@@ -10,6 +10,12 @@
 <url> <loc>https://Cha-Ji.github.io/Android/activity/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://Cha-Ji.github.io/O.S./11_io_system/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://Cha-Ji.github.io/O.S./10_대용량_저장장치_구조/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://Cha-Ji.github.io/O.S./6_sync_ex/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://Cha-Ji.github.io/O.S./5_sync/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://Cha-Ji.github.io/O.S./4_scheduling/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://Cha-Ji.github.io/O.S./3_thread/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://Cha-Ji.github.io/O.S./2_process/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://Cha-Ji.github.io/O.S./1_os/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://Cha-Ji.github.io/Android/livedata_to_flow/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://Cha-Ji.github.io/Android/reflection/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://Cha-Ji.github.io/Android/inline_function/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -24,13 +30,7 @@
 <url> <loc>https://Cha-Ji.github.io/O.S./8_main_memory/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://Cha-Ji.github.io/O.S./7_deadlock/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://Cha-Ji.github.io/O.S./peterson/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://Cha-Ji.github.io/O.S./6_sync_ex/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://Cha-Ji.github.io/O.S./5_sync/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://Cha-Ji.github.io/O.S./4_scheduling/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://Cha-Ji.github.io/O.S./queue/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://Cha-Ji.github.io/O.S./3_thread/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://Cha-Ji.github.io/O.S./2_process/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://Cha-Ji.github.io/O.S./1_os/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://Cha-Ji.github.io/Android/data_binding/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://Cha-Ji.github.io/Android/view_binding/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://Cha-Ji.github.io/Android/two_way_data_binding/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
