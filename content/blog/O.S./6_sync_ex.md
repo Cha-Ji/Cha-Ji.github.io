@@ -1,11 +1,11 @@
 ---
 title: '[공룡책] 동기화 예제'
-date: 2020-07-06 16:21:13
+date: 2022-07-04 16:21:13
 category: 'O.S.'
 draft: false
 ---
 
-[Operating System - 동기화]()
+[Operating System - 동기화](5_sync.md)
 
 이전 글에서는 발생할 수 있는 문제에 대해 많이 언급했습니다.
 
@@ -17,10 +17,19 @@ draft: false
 
 먼저 유한 버퍼 문제가 존재합니다.
 
-```
+> 유한한 개수의 item을 임시로 보관하는 버퍼에 여러 명의 생산자들과 소비자들이 접근한다. 
+> 생산자는 item이 하나 만들어지면 그 공간에 저장한다. 
+> 이때 저장할 공간이 없는 문제가 발생할 수 있다. 
+> 소비자는 item이 필요할 때 버퍼에서 item을 하나 가져온다. 
+> 이 때는 소비할 item이 없는 문제가 발생할 수 있다.
+- 출처: https://ko.wikipedia.org/wiki/생산자-소비자_문제
+
+이 문제를 해결하는 것을 생산자-소비자 협동이라 하며 버퍼가 동기화되어 정상적으로 동작하는 상태를 뜻합니다.
+ 
+```kotlin
 // n개의 버퍼로 구성된 pool이 존재하며 각 버퍼는 한 item을 저장
 val n: Int
-var mutext: Semaphore = 1 // 상호 배제 기능을 제공
+var mutex: Semaphore = 1 // 상호 배제 기능을 제공
 var empty: Semaphore = n  // 비어있는 버퍼 수
 var full: Semaphore = 0   // 사용중인 버퍼 수
 
@@ -29,23 +38,23 @@ var full: Semaphore = 0   // 사용중인 버퍼 수
 while (true) {
   // produce
   wait(empty)
-    wait(mutext)
+  wait(mutex)
 
-    // next produce
-    signal(mutex)
-    signal(full)
+  // next produce
+  signal(mutex)
+  signal(full)
 }
 
 //================================================
 // 소비자
 while (true) {
-    wait(full)
-    wait(mutex)
-    // remove item
+   wait(full)
+   wait(mutex)
+   // remove item
 
-    signal(mutex)
-    signal(empty)
-    //consume
+   signal(mutex)
+   signal(empty)
+   //consume
 }
 ```
 

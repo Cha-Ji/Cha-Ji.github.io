@@ -1,6 +1,6 @@
 ---
 title: '[공룡책] 운영체제'
-date: 2020-07-01 16:21:13
+date: 2022-07-01 16:21:13
 category: 'O.S.'
 draft: false
 ---
@@ -27,6 +27,6 @@ draft: false
 - 컴퓨터 시스템 하드웨어 및 소프트웨어 자원을 여러 사용자 간에 효율적 할당, 관리, 보호합니다.
 - 운영 체제는 제어 프로그램으로서 사용자 프로그램의 오류나 잘못된 자원 사용을 감시하는 것과 입출력 장치 등의 자원에 대한 연산과 제어를 관리합니다.
 
-## References
+### References
 
 -   Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』

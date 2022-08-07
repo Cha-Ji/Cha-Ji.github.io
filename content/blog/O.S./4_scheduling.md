@@ -1,6 +1,6 @@
 ---
 title: '[공룡책] CPU 스케줄링'
-date: 2020-07-04 16:21:13
+date: 2022-07-03 16:21:13
 category: 'O.S.'
 draft: false
 ---
@@ -62,7 +62,7 @@ draft: false
 
 데드락을 방지할 필요가 있는 기법입니다.
 
--   new process → runnint
+-   new process → running
 -   running process → waiting
 
 비선점 스케줄링은 context switching 전에 실행이 완료되고 프로세스가 봉쇄되기를 기다립니다.
@@ -121,9 +121,10 @@ FCFS에서 선점이 추가된 방식입니다.
 
 하지만 해결책으로 대기시간에 따라 우선순위를 보정하는 aging이 존재합니다.
 
-## References
+### References
 
 ---
 
--   [github JaeYeopHan](https://github.com/JaeYeopHan/Interview_Question_for_Beginner/tree/master/OS#cpu-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%9F%AC)
--   Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』
+- https://github.com/JaeYeopHan/Interview_Question_for_Beginner/tree/master/OS#cpu-%EC%8A%A4%EC%BC%80%EC%A4%84%EB%9F%AC
+- Abraham Silberschatz, Peter B. Galvin, Greg Gagne의 『Operating System Concept 10th』
+ 
